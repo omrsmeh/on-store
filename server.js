@@ -1,9 +1,11 @@
 'use strict';
 
-const Composer = require('./index');
-const validate = require('./server/api/auth/actions/validator');
-const User     = require('./server/api/auth/model/users.model');
-const Store    = require('./server/api/core/store/model/store.model');
+require('dotenv').config();
+const apiBasePath = process.env.API_DIR_PATH;
+const modelSuffix = process.env.MODULE_SUFFIX;
+const Composer    = require('./index');
+const LoadModels  = require('./model.manifest').loadModels;
+const validate    = require(apiBasePath + '/auth/actions/validator');
 
 Composer((err, server) => {
 
@@ -49,9 +51,9 @@ Composer((err, server) => {
   });
 
   server.auth.strategy('bellauth', 'bell', {
-    provider: 'auth0',
-    location: 'http://localhost:9000/auth',
-    config: {domain: 'omrsmeh.auth0.com'},
+    provider: process.env.BELLAUTH_PROVIDER,
+    location: process.env.BELLAUTH_LOCATION,
+    config: {domain: process.env.BELLAUTH_DOMAIN},
     password: process.env.AUTH_PASSWORD,
     clientId: process.env.AUTH_CLIENT_AUDIENCE,
     clientSecret: process.env.AUTH_CLIENT_SECRET,
@@ -74,8 +76,8 @@ Composer((err, server) => {
       routes: [
         {
           includes: [
-            './server/api/**/*Routes.js',
-            './server/api/index.js'
+            apiBasePath + '/**/*Routes.js',
+            apiBasePath + '/index.js'
           ]
         }
       ],
@@ -94,10 +96,8 @@ Composer((err, server) => {
     });
 
     // Setting App models
-    server.settings.app = {
-      'users': (new User(server.plugins['hapi-mongoose'])),
-      'webstore': (new Store(server.plugins['hapi-mongoose']))
-    };
+    const hapiMongoose  = server.plugins['hapi-mongoose'];
+    server.settings.app = LoadModels(apiBasePath, modelSuffix, hapiMongoose);
 
     // KickStart Web Server
     server.start(() => {

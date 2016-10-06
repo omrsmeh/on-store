@@ -6,3 +6,4 @@ webapp/coverage/
 webapp/dist/
 webapp/node_modules/
 webapp/.yo-rc.json
+test/fixtures/awesome_log

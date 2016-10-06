@@ -25,3 +25,6 @@ class Users {
 }
 
 module.exports = Users;
+module.exports.getName = () => {
+  return 'users';
+}

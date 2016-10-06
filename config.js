@@ -1,18 +1,14 @@
 'use strict';
 
-
-require('dotenv').config();
 const Confidence = require('confidence');
-
 
 const criteria = {
   env: process.env.NODE_ENV
 };
 
-
 const config = {
-  $meta: 'Fusion HTML API',
-  projectName: 'fuse-cloud-api',
+  $meta: 'On Store API',
+  projectName: 'on-store-api',
   port: {
     api: {
       $filter: 'env',

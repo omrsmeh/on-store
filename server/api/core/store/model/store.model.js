@@ -57,3 +57,6 @@ class WebStore {
 }
 
 module.exports = WebStore;
+module.exports.getName = () => {
+  return 'webstore';
+}
