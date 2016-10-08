@@ -32,7 +32,7 @@ exports.loadModels = (filePath, prefix, provider) => {
     return _models;
   }
   catch(e) {
-    let _m = 'Unable to load model: '+models[key]+', Message: '+e.message;
+    let _m = 'Unable to load model: '+files[key]+', Message: '+e.message;
     throw new Error(_m);
   }
 };

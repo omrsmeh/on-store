@@ -42,6 +42,10 @@ class WebStore {
     return this.find({activeStore: true});
   }
 
+  findActiveStoresById(id) {
+    return this.findOne({"_id": id, "activeStore": true});
+  }
+
   findInActiveStores() {
     return this.find({activeStore: false});
   }

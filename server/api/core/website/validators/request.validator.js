@@ -21,9 +21,9 @@ class RequestVaildator {
     return {
       name: Joi.string().min(5).max(35).required(),
       baseCurrency: Joi.string().min(2).max(10).required(),
-      logoImage: Joi.string().min(20).max(255).required(),
-      emailLogoImage: Joi.string().min(20).max(255).required(),
-      activeStore: Joi.boolean()
+      storeId: Joi.string().min(24).max(24).required(),
+      baseCateogryId: Joi.string().min(24).max(24).required(),
+      activeWebsite: Joi.boolean()
     }
   }
 

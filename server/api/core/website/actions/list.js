@@ -2,7 +2,7 @@
 
 let BaseActions = require('./base.action');
 
-class ListStores extends BaseActions {
+class ListWebsites extends BaseActions {
 
   constructor(request, reply) {
     super(request, reply);
@@ -26,10 +26,10 @@ class ListStores extends BaseActions {
 
     switch (parameter.type) {
       case reqType[0]:
-        findQuery['activeStore'] = true;
+        findQuery['activeWebsite'] = true;
         break;
       case reqType[1]:
-        findQuery['activeStore'] = false;
+        findQuery['activeWebsite'] = false;
         break;
     };
 
@@ -44,6 +44,6 @@ class ListStores extends BaseActions {
 }
 
 module.exports = (request, reply) => {
-  let handler = new ListStores(request, reply);
+  let handler = new ListWebsites(request, reply);
   return handler.processRequest();
 };
