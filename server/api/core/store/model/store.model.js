@@ -54,6 +54,17 @@ class WebStore {
     return this.find({baseCurrency: currencyName});
   }
 
+  findWebsites(id) {
+    return this.aggregate([{
+      "$lookup": {
+        "from": "websites",
+        "localField": "_id",
+        "foreignField": "storeId",
+        "as": "storeWebsites"
+      }
+    }]);
+  }
+
   save(newValue) {
     let store = new this.webStore(newValue);
     return store.save();

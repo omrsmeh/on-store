@@ -1,6 +1,7 @@
 'use strict';
 
 let BaseActions = require('./base.action');
+let Validator   = require('./../validators/request.validator');
 
 class ListWebsites extends BaseActions {
 
@@ -21,14 +22,29 @@ class ListWebsites extends BaseActions {
     let parameter = super.requestParams;
     let query     = super.requestQuery;
     let content   = null;
-    let reqType   = process.env.VISIBILITY_LIST_TYPES.split(',');
+    let reqType   = process.env.WEBSITE_VISIBILITY_TYPE.split(',');
     let findQuery = {}
+
+    if(!Validator.isValidStoreRequest(parameter.type, query.store_id)) {
+      return super.response(200, {error: true, message: 'Store Id is required'});
+    }
 
     switch (parameter.type) {
       case reqType[0]:
         findQuery['activeWebsite'] = true;
         break;
       case reqType[1]:
+        findQuery['activeWebsite'] = false;
+        break;
+      case reqType[2]:
+        findQuery['storeId'] = query.store_id;
+        break;
+      case reqType[3]:
+        findQuery['storeId']       = query.store_id;
+        findQuery['activeWebsite'] = true;
+        break;
+      case reqType[4]:
+        findQuery['storeId']       = query.store_id;
         findQuery['activeWebsite'] = false;
         break;
     };

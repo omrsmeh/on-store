@@ -6,14 +6,18 @@ class RequestVaildator {
 
   getListParameterValidator() {
     return {
-      type: Joi.any().valid(process.env.VISIBILITY_LIST_TYPES.split(','))
+      type: Joi.any().valid(process.env.WEBSITE_VISIBILITY_TYPE.split(','))
     }
   }
 
   getListQueryValidator() {
+    let _limit   = parseInt(process.env.PAGINATION_LIMIT);
+    let _storeId = parseInt(process.env.ID_PARAM_SIZE_LIMIT);
+
     return {
       page: Joi.number().min(1),
-      limit: Joi.number().min(parseInt(process.env.PAGINATION_LIMIT))
+      limit: Joi.number().min(_limit),
+      store_id: Joi.string().min(_storeId)
     }
   }
 
@@ -33,6 +37,17 @@ class RequestVaildator {
     updateValidator.id  = Joi.string().alphanum().min(24);
 
     return updateValidator;
+  }
+
+
+  isValidStoreRequest(type, storeId) {
+    let _return = true;
+
+    if(/^store((_((in)?active))?)$/.test(type) && (!storeId || storeId == '' || storeId == null || typeof storeId == 'undefined')) {
+      _return = false;
+    }
+
+    return _return;
   }
 
 }
